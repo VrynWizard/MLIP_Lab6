@@ -14,15 +14,17 @@ pipeline {
                 sh '''#!/bin/bash
                 echo "Test Step: Setting up virtual environment and running tests..."
 
-                # Create the virtual environment if it doesn't exist
+                # Create the virtual environment if it doesn't exist using python3
                 if [ ! -d "venv" ]; then
-                    python -m venv venv
+                    python3 -m venv venv
                 fi
 
                 # Activate the virtual environment
                 source venv/bin/activate
 
-                # Upgrade pip and install dependencies
+                # Upgrade pip and install dependencies.
+                # Note: If you run into issues with pip complaining about an externally-managed environment,
+                # you can add the --break-system-packages flag.
                 pip install --upgrade pip
                 pip install -r requirements.txt
 
