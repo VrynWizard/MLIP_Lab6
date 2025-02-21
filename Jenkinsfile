@@ -5,37 +5,37 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''#!/bin/bash
-                echo 'In C or Java, we can compile our program in this step'
-                echo 'In Python, we can build our package here or skip this step'
+                echo "Build Step: In C/Java you might compile code. In Python, you might build your package or skip this step."
                 '''
             }
         }
         stage('Test') {
             steps {
                 sh '''#!/bin/bash
-                echo 'Test Step: We run testing tool like pytest here'
+                echo "Test Step: Setting up virtual environment and running tests..."
 
-                # Set up pyenv using the shared installation in your home directory
-                export PYENV_ROOT="/home/chenkai2/.pyenv"
-                export PATH="$PYENV_ROOT/bin:$PATH"
-                eval "$(pyenv init --path)"
-                eval "$(pyenv virtualenv-init -)"
+                # Create the virtual environment if it doesn't exist
+                if [ ! -d "venv" ]; then
+                    python -m venv venv
+                fi
 
-                # Activate pyenv virtual environment
-                pyenv activate recommend_service
+                # Activate the virtual environment
+                source venv/bin/activate
 
-                # Run pytest
+                # Upgrade pip and install dependencies
+                pip install --upgrade pip
+                pip install -r requirements.txt
+
+                # Run tests with pytest
                 pytest
 
-                echo 'pytest completed successfully'
+                echo "pytest completed successfully"
                 '''
-
             }
         }
         stage('Deploy') {
             steps {
-                echo 'In this step, we deploy our porject'
-                echo 'Depending on the context, we may publish the project artifact or upload pickle files'
+                echo "Deploy Step: Deploying the project artifact or uploading files as required."
             }
         }
     }
