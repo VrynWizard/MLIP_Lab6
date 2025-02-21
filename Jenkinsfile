@@ -18,11 +18,11 @@ pipeline {
                 # Set up pyenv using the shared installation in your home directory
                 export PYENV_ROOT="/home/chenkai2/.pyenv"
                 export PATH="$PYENV_ROOT/bin:$PATH"
-                eval "$(pyenv init --path)"
-                eval "$(pyenv virtualenv-init -)"
+                eval "$(/home/chenkai2/.pyenv/bin/pyenv init --path)"
+                eval "$(/home/chenkai2/.pyenv/bin/pyenv virtualenv-init -)"
 
-                # Activate pyenv virtual environment
-                pyenv activate recommend_service
+                # Activate your pyenv virtual environment using the full path
+                /home/chenkai2/.pyenv/bin/pyenv activate recommend_service
 
                 # Run pytest
                 pytest
